@@ -6,7 +6,6 @@ const projects = [
     description:
       "Documentation for an experimental process converting photos of ancient coins into tangible 3D objects.",
     stack: ["Blender", "HTML"],
-    accent: "85, 245, 223",
     url: "https://alicmc.github.io/coins/",
   },
   {
@@ -15,7 +14,6 @@ const projects = [
     description:
       "A simple SMShing simulation script designed to carry out internal phishing campaigns.",
     stack: ["Python", "Web APIs"],
-    accent: "255, 230, 109",
     url: "https://github.com/alicmc/SmishingTest",
   },
   {
@@ -24,7 +22,6 @@ const projects = [
     description:
       "A simple dashboard to track pantry inventory and come up with recipes.",
     stack: ["HTML", "JavaScript", "CSS"],
-    accent: "255, 103, 180",
     url: "https://w3stu.cs.jmu.edu/mileacax/cs343/project/",
   },
   {
@@ -33,7 +30,6 @@ const projects = [
     description:
       "A simple Electron App to track members' points and send out automated emails.",
     stack: ["JavaScript", "React", "Electron App"],
-    accent: "137, 255, 157",
     url: "#",
   },
   {
@@ -42,16 +38,14 @@ const projects = [
     description:
       "Experimental code using vision transformers to classify a small animal dataset.",
     stack: ["Python", "Numpy", "TensorFlow"],
-    accent: "116, 157, 255",
     url: "https://github.com/alicmc/MLProj2",
   },
   {
     title: "Refugee Services",
     tag: "Product",
     description:
-      "A simple app connecting refugees to service providers around them.",
+      "A web app connecting refugees to service providers around them.",
     stack: ["Flutter", "SQL", "RESTful APIs"],
-    accent: "255, 143, 88",
     url: "#",
   },
 ];
@@ -64,11 +58,57 @@ const shuffleButton = document.querySelector("#shuffle-projects");
 let currentFilter = "all";
 let activeProjects = [...projects];
 
+function hashString(value) {
+  return [...value].reduce(
+    (hash, char) => Math.imul(31, hash) + char.charCodeAt(0) || 0,
+    0,
+  );
+}
+
+function hslToRgb(hue, saturation, lightness) {
+  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+  const huePrime = hue / 60;
+  const x = chroma * (1 - Math.abs((huePrime % 2) - 1));
+  const [r1, g1, b1] =
+    huePrime < 1
+      ? [chroma, x, 0]
+      : huePrime < 2
+        ? [x, chroma, 0]
+        : huePrime < 3
+          ? [0, chroma, x]
+          : huePrime < 4
+            ? [0, x, chroma]
+            : huePrime < 5
+              ? [x, 0, chroma]
+              : [chroma, 0, x];
+  const match = lightness - chroma / 2;
+
+  return [r1, g1, b1].map((channel) => Math.round((channel + match) * 255));
+}
+
+function projectAccent(title) {
+  const hash = Math.abs(hashString(title));
+  const palette = [
+    [178, 0.72, 0.58],
+    [214, 0.74, 0.62],
+    [258, 0.68, 0.66],
+    [316, 0.72, 0.64],
+    [22, 0.78, 0.62],
+    [48, 0.82, 0.6],
+    [138, 0.68, 0.58],
+    [332, 0.76, 0.62],
+  ];
+  const [baseHue, saturation, lightness] = palette[hash % palette.length];
+  const hue = baseHue + (((hash >> 8) % 15) - 7);
+
+  return hslToRgb(hue % 360, saturation, lightness).join(", ");
+}
+
 function renderProjects(items) {
   grid.innerHTML = items
     .map(
       (project, index) => `
-    <article class="project-card reveal visible" style="--card-rgb: ${project.accent}">
+    <article class="project-card reveal visible" style="--card-rgb: ${projectAccent(project.title)}">
       <a href="${project.url}" aria-label="Open ${project.title} project">
         <div class="project-top">
           <span class="project-index">${String(index + 1).padStart(2, "0")}</span>
