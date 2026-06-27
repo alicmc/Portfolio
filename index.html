@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Alice, software engineer portfolio with selected projects and interactive starfield."
+    />
+    <title>Alice | Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+    <div class="star-bursts" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Alice home">
+        <span class="brand-mark">A</span>
+        <span>Alice</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero section-shell" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Software engineer</p>
+          <h1 id="hero-title">Alice M</h1>
+          <p class="hero-text">
+            I turn messy product ideas into fast, sturdy interfaces and
+            services. Clean architecture, humane UX, crisp details. Also, yes: I
+            am the shit.
+          </p>
+          <div class="hero-actions" aria-label="Portfolio actions">
+            <a class="button ghost" href="https://github.com/alicmc">GitHub</a>
+            <a
+              class="button ghost"
+              href="https://www.linkedin.com/in/alice-mileac/"
+              >LinkdIn</a
+            >
+            <a class="button ghost" href="mailto:alicemilea04@gmail.com"
+              >Email Alice</a
+            >
+          </div>
+          <div class="hero-actions" aria-label="Portfolio actions">
+            <a class="button primary" href="#projects">View projects</a>
+          </div>
+        </div>
+
+        <!-- <aside class="orbit-panel reveal" aria-label="Portfolio highlights">
+          <div class="orbit-ring">
+            <span class="planet core"></span>
+            <span class="planet p1"></span>
+            <span class="planet p2"></span>
+            <span class="planet p3"></span>
+          </div>
+          <dl class="stats-grid">
+            <div>
+              <dt>Focus</dt>
+              <dd>Full-stack product engineering</dd>
+            </div>
+            <div>
+              <dt>Mode</dt>
+              <dd>Prototype to production</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>TypeScript, React, APIs, data</dd>
+            </div>
+          </dl>
+        </aside> -->
+      </section>
+
+      <!-- <section class="marquee" aria-label="Core strengths">
+        <div class="marquee-track">
+          <span>frontend systems</span>
+          <span>backend APIs</span>
+          <span>design detail</span>
+          <span>automation</span>
+          <span>performance</span>
+          <span>product thinking</span>
+          <span>frontend systems</span>
+          <span>backend APIs</span>
+          <span>design detail</span>
+          <span>automation</span>
+        </div>
+      </section> -->
+
+      <section
+        class="projects section-shell"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div class="section-heading reveal">
+          <p class="eyebrow">Selected work</p>
+          <h2 id="projects-title">A constellation of useful things.</h2>
+          <p>
+            Product surfaces, data tools, creative systems, and the connective
+            backend work that makes them feel effortless.
+          </p>
+        </div>
+
+        <div class="project-toolbar reveal" aria-label="Project filters">
+          <button
+            class="filter active"
+            type="button"
+            data-filter="all"
+            aria-pressed="true"
+          >
+            All
+          </button>
+          <button class="filter" type="button" data-filter="Product">
+            Product
+          </button>
+          <button class="filter" type="button" data-filter="Systems">
+            Systems
+          </button>
+          <button class="filter" type="button" data-filter="Data">Data</button>
+          <button class="filter" type="button" data-filter="Creative">
+            Creative
+          </button>
+        </div>
+
+        <div class="project-meta reveal">
+          <p><span id="project-count">0</span> projects shown</p>
+          <button class="text-button" type="button" id="shuffle-projects">
+            Shuffle constellation
+          </button>
+        </div>
+
+        <div class="project-grid" id="project-grid" aria-live="polite"></div>
+      </section>
+
+      <section
+        class="process section-shell"
+        id="process"
+        aria-labelledby="process-title"
+      >
+        <div class="section-heading reveal">
+          <p class="eyebrow">How I work</p>
+          <h2 id="process-title">Fast loops, careful edges.</h2>
+        </div>
+        <div class="process-rail">
+          <article class="process-step reveal">
+            <span>01</span>
+            <h3>Find the real constraint</h3>
+            <p>
+              Clarify users, data, risks, and what needs to be true before code
+              gets expensive.
+            </p>
+          </article>
+          <article class="process-step reveal">
+            <span>02</span>
+            <h3>Build the narrowest strong version</h3>
+            <p>
+              Ship the first useful slice with production habits: accessibility,
+              tests, and observability.
+            </p>
+          </article>
+          <article class="process-step reveal">
+            <span>03</span>
+            <h3>Polish where it compounds</h3>
+            <p>
+              Make the repeated paths fast, legible, and satisfying so the
+              product keeps earning trust.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="contact section-shell"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="contact-card reveal">
+          <p class="eyebrow">Open channel</p>
+          <h2 id="contact-title">
+            Bring the weird problem. I will bring the build plan.
+          </h2>
+          <a class="button primary" href="mailto:alice@example.com"
+            >alice@example.com</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Designed and built for Alice.</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
