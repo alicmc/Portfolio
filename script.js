@@ -53,7 +53,7 @@ const projects = [
 // redering projects
 const grid = document.querySelector("#project-grid");
 const count = document.querySelector("#project-count");
-const filterButtons = [...document.querySelectorAll(".filter")];
+const projectToolbar = document.querySelector(".project-toolbar");
 const shuffleButton = document.querySelector("#shuffle-projects");
 let currentFilter = "all";
 let activeProjects = [...projects];
@@ -131,6 +131,32 @@ function renderProjects(items) {
   bindCardGlow();
 }
 
+function renderFilters() {
+  const tags = [...new Set(projects.map((project) => project.tag))].sort();
+
+  projectToolbar.innerHTML = ["all", ...tags]
+    .map((filter) => {
+      const isActive = filter === currentFilter;
+      const label = filter === "all" ? "All" : filter;
+
+      return `
+        <button
+          class="filter${isActive ? " active" : ""}"
+          type="button"
+          data-filter="${filter}"
+          aria-pressed="${isActive}"
+        >
+          ${label}
+        </button>
+      `;
+    })
+    .join("");
+
+  projectToolbar.querySelectorAll(".filter").forEach((button) => {
+    button.addEventListener("click", () => applyFilter(button.dataset.filter));
+  });
+}
+
 function applyFilter(filter) {
   currentFilter = filter;
   activeProjects =
@@ -138,7 +164,7 @@ function applyFilter(filter) {
       ? [...projects]
       : projects.filter((project) => project.tag === filter);
   renderProjects(activeProjects);
-  filterButtons.forEach((button) => {
+  projectToolbar.querySelectorAll(".filter").forEach((button) => {
     const isActive = button.dataset.filter === filter;
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
@@ -154,10 +180,6 @@ function bindCardGlow() {
     });
   });
 }
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => applyFilter(button.dataset.filter));
-});
 
 shuffleButton.addEventListener("click", () => {
   activeProjects = [...activeProjects].sort(() => Math.random() - 0.5);
@@ -302,5 +324,6 @@ window.addEventListener("resize", resizeSky);
 
 resizeSky();
 animateSky();
+renderFilters();
 renderProjects(projects);
 initTypewriter();
