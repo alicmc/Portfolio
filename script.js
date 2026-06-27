@@ -1,78 +1,62 @@
+// projects array
 const projects = [
   {
     title: "Coin Modeling",
     tag: "Creative",
     description:
-      "A release dashboard that turns deploy health, approvals, and incidents into one fast operator view.",
+      "Documentation for an experimental process converting photos of ancient coins into tangible 3D objects.",
     stack: ["Blender", "HTML"],
     accent: "85, 245, 223",
     url: "https://alicmc.github.io/coins/",
   },
   {
     title: "Smishing Test",
-    tag: "Data",
+    tag: "Cybersecurity",
     description:
-      "A feature pipeline for ranking noisy events and exposing the right signal at the right moment.",
+      "A simple SMShing simulation script designed to carry out internal phishing campaigns.",
     stack: ["Python", "Web APIs"],
     accent: "255, 230, 109",
     url: "https://github.com/alicmc/SmishingTest",
   },
   {
     title: "Virtual Kitchen",
-    tag: "Creative",
+    tag: "Web Dev",
     description:
-      "A tiny canvas playground with soft physics, generative motion, and shareable scenes.",
-    stack: ["HTML", "JavaScript"],
+      "A simple dashboard to track pantry inventory and come up with recipes.",
+    stack: ["HTML", "JavaScript", "CSS"],
     accent: "255, 103, 180",
     url: "https://w3stu.cs.jmu.edu/mileacax/cs343/project/",
   },
   {
     title: "AOE Points",
-    tag: "Systems",
+    tag: "Product",
     description:
-      "A debugging surface that stitches logs, traces, user sessions, and deploy diffs into one story.",
-    stack: ["Node", "OpenTelemetry", "Redis"],
+      "A simple Electron App to track members' points and send out automated emails.",
+    stack: ["JavaScript", "React", "Electron App"],
     accent: "137, 255, 157",
     url: "#",
   },
   {
     title: "Animal Classifier",
-    tag: "Product",
+    tag: "ML",
     description:
-      "A compact relationship workspace with account timelines, reminders, and keyboard-first workflows.",
-    stack: ["Next.js", "Prisma", "Auth"],
+      "Experimental code using vision transformers to classify a small animal dataset.",
+    stack: ["Python", "Numpy", "TensorFlow"],
     accent: "116, 157, 255",
     url: "https://github.com/alicmc/MLProj2",
   },
   {
     title: "Refugee Services",
-    tag: "Systems",
+    tag: "Product",
     description:
-      "A job orchestration UI for retries, queue pressure, audit trails, and human-in-the-loop recovery.",
-    stack: ["Go", "Temporal", "SQLite"],
+      "A simple app connecting refugees to service providers around them.",
+    stack: ["Flutter", "SQL", "RESTful APIs"],
     accent: "255, 143, 88",
     url: "#",
   },
-  {
-    title: "Metric Mural",
-    tag: "Data",
-    description:
-      "An analytics wall for spotting drift, breakouts, cohorts, and product bets without spreadsheet chaos.",
-    stack: ["D3", "DuckDB", "Workers"],
-    accent: "186, 130, 255",
-    url: "#",
-  },
-  // {
-  //   title: "Studio Keys",
-  //   tag: "Creative",
-  //   description:
-  //     "A design-token lab for exploring palettes, motion curves, spacing, and component states in one place.",
-  //   stack: ["CSS", "JS", "Design Systems"],
-  //   accent: "255, 121, 160",
-  //   url: "#",
-  // },
 ];
 
+// redering projects
 const grid = document.querySelector("#project-grid");
 const count = document.querySelector("#project-count");
 const filterButtons = [...document.querySelectorAll(".filter")];
