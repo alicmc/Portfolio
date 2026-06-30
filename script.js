@@ -17,7 +17,7 @@ const projects = [
       "A SMShing simulation script designed to carry out internal phishing campaigns.",
     stack: ["Python", "Web APIs"],
     url: "#",
-    githubUrl: "https://github.com/alicmc/smishing-test",
+    githubUrl: "https://github.com/alicmc/SmishingTest",
     media: createDemoMedia("Smishing Test"),
   },
   {
@@ -47,8 +47,14 @@ const projects = [
       "Experimental code using vision transformers to classify a small animal dataset.",
     stack: ["Python", "Numpy", "TensorFlow"],
     url: "#",
-    githubUrl: "https://github.com/alicmc/animal-classifier",
-    media: createDemoMedia("Animal Classifier"),
+    githubUrl: "github.com/alicmc/MLProj2",
+    media: [
+      {
+        type: "image",
+        src: "assets/images/ML_Poster.png",
+        alt: "Animal Classifier ML poster",
+      },
+    ],
   },
   {
     title: "Refugee Services",
@@ -327,6 +333,7 @@ function renderProjectMedia(project, container) {
 
   container.innerHTML = "";
   const mediaItems = project.media || [];
+  container.classList.toggle("single-media", mediaItems.length === 1);
 
   mediaItems.forEach((media, index) => {
     const figure = document.createElement("figure");
@@ -372,9 +379,12 @@ function renderProjectMedia(project, container) {
       figure.append(placeholder);
     }
 
-    const caption = document.createElement("figcaption");
-    caption.textContent = media.caption || `Demo asset ${index + 1}`;
-    figure.append(caption);
+    if (media.caption) {
+      const caption = document.createElement("figcaption");
+      caption.textContent = media.caption;
+      figure.append(caption);
+    }
+
     container.append(figure);
   });
 }
