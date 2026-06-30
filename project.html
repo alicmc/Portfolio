@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Selected project detail from Alice's software engineering portfolio."
+    />
+    <title>Project | Alice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+    <div class="star-bursts" aria-hidden="true"></div>
+
+    <main id="main">
+      <section
+        class="project-detail section-shell reveal"
+        id="project-detail"
+        aria-labelledby="project-title"
+      >
+        <div class="project-detail-copy">
+          <p class="eyebrow">Selected project</p>
+          <h1 id="project-title">Project</h1>
+          <p class="hero-text" id="project-description"></p>
+        </div>
+
+        <div class="project-detail-meta" aria-label="Project details">
+          <div class="project-detail-actions">
+            <a class="button primary" href="index.html#projects"
+              >Back to projects</a
+            >
+            <a class="button ghost" id="project-github" href="#">GitHub</a>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag" id="project-tag"></span>
+            <div
+              class="project-stack"
+              id="project-stack"
+              aria-label="Technologies"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="project-media section-shell reveal"
+        aria-labelledby="project-media-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Demo assets</p>
+            <h2 id="project-media-title">Photos and video.</h2>
+          </div>
+        </div>
+        <div class="project-media-grid" id="project-media-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Designed and built for Alice.</p>
+      <a href="index.html#top">Home</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

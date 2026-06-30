@@ -524,6 +524,185 @@ h3 {
   padding: clamp(2rem, 5vw, 4rem) clamp(1.4rem, 5vw, 4rem);
 }
 
+.project-detail {
+  display: grid;
+  gap: 1.2rem;
+  min-height: 0;
+  padding: clamp(1.4rem, 4vw, 2.3rem) clamp(1.4rem, 5vw, 3rem);
+}
+
+.project-detail-copy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.95rem;
+  align-items: start;
+  justify-items: start;
+}
+
+.project-detail h1 {
+  max-width: 13ch;
+  margin-bottom: 0.7rem;
+  font-size: clamp(3rem, 8vw, 6.1rem);
+  text-align: left;
+}
+
+.project-detail .hero-text {
+  max-width: 58ch;
+  margin-bottom: 0;
+}
+
+.project-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: flex-start;
+  margin-top: 0;
+}
+
+.project-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border-top: 1px solid rgba(255, 248, 232, 0.16);
+  padding-top: 1rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.project-detail-meta .project-tag {
+  border-color: rgba(var(--card-rgb), 0.78);
+  background: rgba(var(--card-rgb), 0.16);
+}
+
+.project-detail-meta .project-stack {
+  flex: 0 1 auto;
+  margin-top: 0;
+}
+
+.project-media {
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.4rem, 5vw, 4rem);
+}
+
+.project-media-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: 1rem;
+}
+
+.project-media-item {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(14, 18, 49, 0.74);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+}
+
+.project-media-item:first-child {
+  grid-row: span 2;
+  min-height: 540px;
+}
+
+.project-media-item::before {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 2;
+  color: rgba(255, 248, 232, 0.74);
+  content: var(--media-index);
+  font-family: "Space Mono", monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.project-media-item img,
+.project-media-item video,
+.project-media-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
+.project-media-placeholder {
+  display: grid;
+  align-content: end;
+  gap: 0.35rem;
+  background:
+    radial-gradient(
+      circle at 24% 18%,
+      rgba(var(--card-rgb), 0.54),
+      transparent 13rem
+    ),
+    linear-gradient(135deg, rgba(85, 245, 223, 0.18), transparent 34%),
+    repeating-linear-gradient(
+      -35deg,
+      rgba(255, 248, 232, 0.09) 0 1px,
+      transparent 1px 16px
+    ),
+    rgba(7, 8, 22, 0.82);
+  padding: 1.1rem;
+}
+
+.project-media-placeholder.video::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  border-top: 1.3rem solid transparent;
+  border-bottom: 1.3rem solid transparent;
+  border-left: 2rem solid var(--fg);
+  filter: drop-shadow(0 0 18px rgba(255, 248, 232, 0.6));
+  content: "";
+}
+
+.project-media-placeholder span,
+.project-media-placeholder strong {
+  position: relative;
+  z-index: 1;
+}
+
+.project-media-placeholder span {
+  color: var(--cyan);
+  font-family: "Space Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.project-media-placeholder strong {
+  max-width: 12ch;
+  font-family: "Gumball", "DM Sans", system-ui, sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.project-media-item figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.2rem 1.1rem 1rem;
+  background: linear-gradient(transparent, rgba(7, 8, 22, 0.86));
+  color: var(--fg);
+  font-weight: 900;
+}
+
 .section-heading {
   display: grid;
   grid-template-columns: minmax(0, 0.75fr) minmax(280px, 0.55fr);
@@ -775,9 +954,20 @@ h3 {
 
 @media (max-width: 900px) {
   .hero,
+  .project-detail,
+  .project-detail-copy,
   .section-heading,
+  .project-media-grid,
   .process-rail {
     grid-template-columns: 1fr;
+  }
+
+  .project-detail-actions {
+    justify-content: flex-start;
+  }
+
+  .project-media-item:first-child {
+    min-height: 360px;
   }
 
   .hero {

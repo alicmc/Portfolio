@@ -7,14 +7,18 @@ const projects = [
       "Documentation for an experimental process converting photos of ancient coins into tangible 3D objects.",
     stack: ["Blender", "HTML"],
     url: "https://alicmc.github.io/coins/",
+    githubUrl: "https://github.com/alicmc/coin-modeling",
+    media: createDemoMedia("Coin Modeling"),
   },
   {
     title: "Smishing Test",
     tag: "Cybersecurity",
     description:
-      "A simple SMShing simulation script designed to carry out internal phishing campaigns.",
+      "A SMShing simulation script designed to carry out internal phishing campaigns.",
     stack: ["Python", "Web APIs"],
-    url: "https://github.com/alicmc/SmishingTest",
+    url: "#",
+    githubUrl: "https://github.com/alicmc/smishing-test",
+    media: createDemoMedia("Smishing Test"),
   },
   {
     title: "Virtual Kitchen",
@@ -23,14 +27,18 @@ const projects = [
       "A simple dashboard to track pantry inventory and come up with recipes.",
     stack: ["HTML", "JavaScript", "CSS"],
     url: "https://w3stu.cs.jmu.edu/mileacax/cs343/project/",
+    githubUrl: "https://github.com/alicmc/virtual-kitchen",
+    media: createDemoMedia("Virtual Kitchen"),
   },
   {
     title: "AOE Points",
     tag: "Product",
     description:
-      "A simple Electron App to track members' points and send out automated emails.",
+      "A React-based Electron App to track members' points and send out automated emails.",
     stack: ["JavaScript", "React", "Electron App"],
     url: "#",
+    githubUrl: "https://github.com/alicmc/aoe-points",
+    media: createDemoMedia("AOE Points"),
   },
   {
     title: "Animal Classifier",
@@ -38,7 +46,9 @@ const projects = [
     description:
       "Experimental code using vision transformers to classify a small animal dataset.",
     stack: ["Python", "Numpy", "TensorFlow"],
-    url: "https://github.com/alicmc/MLProj2",
+    url: "#",
+    githubUrl: "https://github.com/alicmc/animal-classifier",
+    media: createDemoMedia("Animal Classifier"),
   },
   {
     title: "Refugee Services",
@@ -47,8 +57,52 @@ const projects = [
       "A web app connecting refugees to service providers around them.",
     stack: ["Flutter", "SQL", "RESTful APIs"],
     url: "#",
+    githubUrl: "https://github.com/alicmc/refugee-services",
+    media: createDemoMedia("Refugee Services"),
   },
 ];
+
+function createDemoMedia(title) {
+  return [
+    {
+      type: "image",
+      src: "#",
+      alt: `${title} interface screenshot placeholder`,
+      caption: "Main interface screenshot",
+    },
+    {
+      type: "video",
+      src: "#",
+      poster: "#",
+      caption: "Short demo walkthrough",
+    },
+    {
+      type: "image",
+      src: "#",
+      alt: `${title} feature detail placeholder`,
+      caption: "Feature detail screenshot",
+    },
+  ];
+}
+
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function projectHref(project) {
+  if (project.url !== "#") {
+    return project.url;
+  }
+
+  return `project.html?project=${encodeURIComponent(slugify(project.title))}`;
+}
+
+function findProjectBySlug(slug) {
+  return projects.find((project) => slugify(project.title) === slug);
+}
 
 // redering projects
 const grid = document.querySelector("#project-grid");
@@ -109,7 +163,7 @@ function renderProjects(items) {
     .map(
       (project, index) => `
     <article class="project-card reveal visible" style="--card-rgb: ${projectAccent(project.title)}">
-      <a href="${project.url}" aria-label="Open ${project.title} project">
+      <a href="${projectHref(project)}" aria-label="Open ${project.title} project">
         <div class="project-top">
           <span class="project-index">${String(index + 1).padStart(2, "0")}</span>
           <span class="project-tag">${project.tag}</span>
@@ -181,10 +235,12 @@ function bindCardGlow() {
   });
 }
 
-shuffleButton.addEventListener("click", () => {
-  activeProjects = [...activeProjects].sort(() => Math.random() - 0.5);
-  renderProjects(activeProjects);
-});
+if (shuffleButton) {
+  shuffleButton.addEventListener("click", () => {
+    activeProjects = [...activeProjects].sort(() => Math.random() - 0.5);
+    renderProjects(activeProjects);
+  });
+}
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -202,6 +258,126 @@ document.querySelectorAll(".reveal").forEach((element, index) => {
   element.style.transitionDelay = `${Math.min(index * 55, 360)}ms`;
   revealObserver.observe(element);
 });
+
+function renderProjectPage() {
+  const detail = document.querySelector("#project-detail");
+
+  if (!detail) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const project = findProjectBySlug(params.get("project") || "");
+  const title = document.querySelector("#project-title");
+  const description = document.querySelector("#project-description");
+  const tag = document.querySelector("#project-tag");
+  const stack = document.querySelector("#project-stack");
+  const githubLink = document.querySelector("#project-github");
+  const mediaGrid = document.querySelector("#project-media-grid");
+
+  if (!project) {
+    if (title) {
+      title.textContent = "Project not found";
+    }
+
+    if (description) {
+      description.textContent =
+        "This project page could not be matched to the portfolio data.";
+    }
+
+    return;
+  }
+
+  document.title = `${project.title} | Alice`;
+  detail.style.setProperty("--card-rgb", projectAccent(project.title));
+
+  if (title) {
+    title.textContent = project.title;
+  }
+
+  if (description) {
+    description.textContent = project.description;
+  }
+
+  if (tag) {
+    tag.textContent = project.tag;
+  }
+
+  if (stack) {
+    stack.innerHTML = "";
+    project.stack.forEach((tech) => {
+      const item = document.createElement("span");
+      item.textContent = tech;
+      stack.append(item);
+    });
+  }
+
+  if (githubLink) {
+    githubLink.href = project.githubUrl;
+    githubLink.hidden = !project.githubUrl;
+  }
+
+  renderProjectMedia(project, mediaGrid);
+}
+
+function renderProjectMedia(project, container) {
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+  const mediaItems = project.media || [];
+
+  mediaItems.forEach((media, index) => {
+    const figure = document.createElement("figure");
+    figure.className = "project-media-item";
+    figure.style.setProperty(
+      "--media-index",
+      `"${String(index + 1).padStart(2, "0")}"`,
+    );
+
+    const hasRealSource = media.src && media.src !== "#";
+
+    if (media.type === "video" && hasRealSource) {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.preload = "metadata";
+      video.src = media.src;
+
+      if (media.poster && media.poster !== "#") {
+        video.poster = media.poster;
+      }
+
+      figure.append(video);
+    } else if (media.type === "image" && hasRealSource) {
+      const image = document.createElement("img");
+      image.src = media.src;
+      image.alt = media.alt || `${project.title} demo image`;
+      image.loading = "lazy";
+      figure.append(image);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = `project-media-placeholder ${media.type === "video" ? "video" : "image"}`;
+      placeholder.setAttribute("role", "img");
+      placeholder.setAttribute(
+        "aria-label",
+        media.type === "video"
+          ? `${project.title} demo video placeholder`
+          : media.alt || `${project.title} demo image placeholder`,
+      );
+      placeholder.innerHTML = `
+        <span>${media.type === "video" ? "Demo video" : "Demo photo"}</span>
+        <strong>${project.title}</strong>
+      `;
+      figure.append(placeholder);
+    }
+
+    const caption = document.createElement("figcaption");
+    caption.textContent = media.caption || `Demo asset ${index + 1}`;
+    figure.append(caption);
+    container.append(figure);
+  });
+}
 
 function initTypewriter() {
   const typingText = document.querySelector("[data-typing-text]");
@@ -324,6 +500,9 @@ window.addEventListener("resize", resizeSky);
 
 resizeSky();
 animateSky();
-renderFilters();
-renderProjects(projects);
+if (grid && count && projectToolbar) {
+  renderFilters();
+  renderProjects(projects);
+}
+renderProjectPage();
 initTypewriter();
