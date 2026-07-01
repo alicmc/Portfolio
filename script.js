@@ -16,6 +16,41 @@ const projects = [
     ],
   },
   {
+    title: "Resettlement Services for New Americans",
+    tag: "Product",
+    description:
+      "A web app connecting refugees to service providers around them.",
+    stack: ["Flutter", "SQL", "RESTful APIs"],
+    url: "#",
+    media: [
+      {
+        type: "image",
+        src: "assets/images/rsva_map.png",
+        alt: "Resettlement Services map view",
+      },
+      {
+        type: "image",
+        src: "assets/images/rsva_filters.png",
+        alt: "Resettlement Services filter view",
+      },
+      {
+        type: "image",
+        src: "assets/images/rsva_detail.png",
+        alt: "Resettlement Services detail view",
+      },
+    ],
+  },
+  {
+    title: "Smishing Test",
+    tag: "Cybersecurity",
+    description:
+      "A SMShing simulation script designed to carry out internal phishing campaigns.",
+    stack: ["Python", "Web APIs"],
+    url: "#",
+    githubUrl: "https://github.com/alicmc/SmishingTest",
+    media: createDemoMedia("Smishing Test"),
+  },
+  {
     title: "Meme Mixer",
     tag: "Creative",
     description:
@@ -61,25 +96,7 @@ const projects = [
       },
     ],
   },
-  {
-    title: "Refugee Services",
-    tag: "Product",
-    description:
-      "A web app connecting refugees to service providers around them.",
-    stack: ["Flutter", "SQL", "RESTful APIs"],
-    url: "#",
-    media: createDemoMedia("Refugee Services"),
-  },
-  {
-    title: "Smishing Test",
-    tag: "Cybersecurity",
-    description:
-      "A SMShing simulation script designed to carry out internal phishing campaigns.",
-    stack: ["Python", "Web APIs"],
-    url: "#",
-    githubUrl: "https://github.com/alicmc/SmishingTest",
-    media: createDemoMedia("Smishing Test"),
-  },
+
   {
     title: "Virtual Kitchen",
     tag: "Web Dev",
