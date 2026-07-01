@@ -52,6 +52,10 @@ body {
   overflow-x: hidden;
 }
 
+body.media-lightbox-open {
+  overflow: hidden;
+}
+
 body::before {
   display: none;
   position: fixed;
@@ -652,6 +656,39 @@ h3 {
   object-fit: cover;
 }
 
+.project-media-open {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+  font: inherit;
+  padding: 0;
+}
+
+.project-media-open img,
+.project-media-open video {
+  transition:
+    filter 220ms var(--ease),
+    transform 320ms var(--ease);
+}
+
+.project-media-open:hover img,
+.project-media-open:focus-visible img,
+.project-media-open:hover video,
+.project-media-open:focus-visible video {
+  filter: brightness(1.08) saturate(1.04);
+  transform: scale(1.025);
+}
+
+.project-media-open:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: -6px;
+}
+
 .project-media-grid.single-media .project-media-item img {
   height: auto;
   min-height: 0;
@@ -718,6 +755,90 @@ h3 {
   background: linear-gradient(transparent, rgba(7, 8, 22, 0.86));
   color: var(--fg);
   font-weight: 900;
+}
+
+.media-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.media-lightbox[hidden] {
+  display: none;
+}
+
+.media-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 8, 22, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.media-lightbox-dialog {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(1120px, 100%);
+  max-height: min(760px, calc(100vh - 2rem));
+  margin: 0;
+  border: 1px solid rgba(255, 248, 232, 0.18);
+  border-radius: var(--radius);
+  background: rgba(7, 8, 22, 0.92);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.54);
+  overflow: hidden;
+}
+
+.media-lightbox-frame {
+  display: grid;
+  min-height: min(64vh, 620px);
+  place-items: center;
+  background: #050611;
+}
+
+.media-lightbox-frame img,
+.media-lightbox-frame video {
+  display: block;
+  width: 100%;
+  max-height: min(72vh, 680px);
+  object-fit: contain;
+}
+
+.media-lightbox-frame video {
+  height: auto;
+}
+
+.media-lightbox-caption {
+  border-top: 1px solid rgba(255, 248, 232, 0.12);
+  padding: 0.85rem 1rem;
+  color: var(--fg);
+  font-weight: 900;
+}
+
+.media-lightbox-close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 2;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgba(255, 248, 232, 0.24);
+  border-radius: 50%;
+  background: rgba(7, 8, 22, 0.78);
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.45rem;
+  font-weight: 900;
+}
+
+.media-lightbox-close:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
 }
 
 .section-heading {

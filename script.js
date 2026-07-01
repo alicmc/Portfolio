@@ -175,6 +175,8 @@ const projectToolbar = document.querySelector(".project-toolbar");
 const shuffleButton = document.querySelector("#shuffle-projects");
 let currentFilter = "all";
 let activeProjects = [...projects];
+let mediaLightbox = null;
+let lastMediaTrigger = null;
 
 function firstProjectImage(project) {
   return project.media?.find(
@@ -386,7 +388,6 @@ function renderProjectMedia(project, container) {
 
     if (media.type === "video" && hasRealSource) {
       const video = document.createElement("video");
-      video.controls = true;
       video.preload = "metadata";
       video.src = media.src;
 
@@ -394,13 +395,13 @@ function renderProjectMedia(project, container) {
         video.poster = media.poster;
       }
 
-      figure.append(video);
+      figure.append(createMediaOpenButton(media, video, project));
     } else if (media.type === "image" && hasRealSource) {
       const image = document.createElement("img");
       image.src = media.src;
       image.alt = media.alt || `${project.title} demo image`;
       image.loading = "lazy";
-      figure.append(image);
+      figure.append(createMediaOpenButton(media, image, project));
     } else {
       const placeholder = document.createElement("div");
       placeholder.className = `project-media-placeholder ${media.type === "video" ? "video" : "image"}`;
@@ -427,6 +428,102 @@ function renderProjectMedia(project, container) {
     container.append(figure);
   });
 }
+
+function createMediaOpenButton(media, element, project) {
+  const button = document.createElement("button");
+  button.className = "project-media-open";
+  button.type = "button";
+  button.setAttribute(
+    "aria-label",
+    `View ${media.caption || media.alt || project.title} full size`,
+  );
+  button.append(element);
+  button.addEventListener("click", () =>
+    openMediaLightbox(media, project, button),
+  );
+
+  return button;
+}
+
+function ensureMediaLightbox() {
+  if (mediaLightbox) {
+    return mediaLightbox;
+  }
+
+  mediaLightbox = document.createElement("div");
+  mediaLightbox.className = "media-lightbox";
+  mediaLightbox.hidden = true;
+  mediaLightbox.innerHTML = `
+    <div class="media-lightbox-backdrop" data-lightbox-close></div>
+    <figure class="media-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Project media viewer">
+      <button class="media-lightbox-close" type="button" data-lightbox-close aria-label="Close media viewer">&times;</button>
+      <div class="media-lightbox-frame"></div>
+      <figcaption class="media-lightbox-caption"></figcaption>
+    </figure>
+  `;
+
+  mediaLightbox.addEventListener("click", (event) => {
+    if (event.target.closest("[data-lightbox-close]")) {
+      closeMediaLightbox();
+    }
+  });
+
+  document.body.append(mediaLightbox);
+  return mediaLightbox;
+}
+
+function openMediaLightbox(media, project, trigger) {
+  const lightbox = ensureMediaLightbox();
+  const frame = lightbox.querySelector(".media-lightbox-frame");
+  const caption = lightbox.querySelector(".media-lightbox-caption");
+  const closeButton = lightbox.querySelector(".media-lightbox-close");
+
+  lastMediaTrigger = trigger;
+  frame.innerHTML = "";
+
+  if (media.type === "video") {
+    const video = document.createElement("video");
+    video.controls = true;
+    video.preload = "metadata";
+    video.src = media.src;
+
+    if (media.poster && media.poster !== "#") {
+      video.poster = media.poster;
+    }
+
+    frame.append(video);
+  } else {
+    const image = document.createElement("img");
+    image.src = media.src;
+    image.alt = media.alt || `${project.title} demo image`;
+    frame.append(image);
+  }
+
+  caption.textContent = media.caption || media.alt || project.title;
+  lightbox.hidden = false;
+  document.body.classList.add("media-lightbox-open");
+  closeButton.focus();
+}
+
+function closeMediaLightbox() {
+  if (!mediaLightbox || mediaLightbox.hidden) {
+    return;
+  }
+
+  mediaLightbox.hidden = true;
+  mediaLightbox.querySelector(".media-lightbox-frame").innerHTML = "";
+  document.body.classList.remove("media-lightbox-open");
+
+  if (lastMediaTrigger) {
+    lastMediaTrigger.focus();
+  }
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMediaLightbox();
+  }
+});
 
 function initTypewriter() {
   const typingText = document.querySelector("[data-typing-text]");
