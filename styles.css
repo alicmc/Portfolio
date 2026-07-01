@@ -356,6 +356,10 @@ h3 {
     background 220ms var(--ease);
 }
 
+.button[hidden] {
+  display: none;
+}
+
 .button:hover,
 .project-card:hover {
   transform: translateY(-5px);
@@ -579,8 +583,8 @@ h3 {
 }
 
 .project-detail-meta .project-tag {
-  border-color: rgba(var(--card-rgb), 0.78);
-  background: rgba(var(--card-rgb), 0.16);
+  border-color: rgba(255, 248, 232, 0.32);
+  background: rgba(255, 248, 232, 0.1);
 }
 
 .project-detail-meta .project-stack {
@@ -659,11 +663,6 @@ h3 {
   align-content: end;
   gap: 0.35rem;
   background:
-    radial-gradient(
-      circle at 24% 18%,
-      rgba(var(--card-rgb), 0.54),
-      transparent 13rem
-    ),
     linear-gradient(135deg, rgba(85, 245, 223, 0.18), transparent 34%),
     repeating-linear-gradient(
       -35deg,
@@ -785,13 +784,7 @@ h3 {
   min-height: 320px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(var(--card-rgb), 0.24),
-      rgba(255, 255, 255, 0.045)
-    ),
-    var(--card);
+  background: var(--card);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
   transition:
     transform 220ms var(--ease),
@@ -802,26 +795,71 @@ h3 {
 .project-card::before {
   position: absolute;
   inset: -1px;
+  z-index: 1;
   background:
-    radial-gradient(
-      circle at var(--mx, 50%) var(--my, 12%),
-      rgba(var(--card-rgb), 0.45),
-      transparent 13rem
-    ),
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+    linear-gradient(rgba(7, 8, 22, 0.44), rgba(7, 8, 22, 0.66)),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
   content: "";
   opacity: 0.8;
   pointer-events: none;
+  transition: opacity 240ms var(--ease);
+}
+
+.project-card::after {
+  position: absolute;
+  inset: -0.5rem;
+  z-index: 0;
+  background-image: var(--project-image);
+  background-position: center;
+  background-size: cover;
+  content: "";
+  filter: blur(14px) saturate(0.95) contrast(0.92);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(
+      var(--image-shift-x, 0),
+      var(--image-shift-y, 0)
+    )
+    scale(1.08);
+  transition:
+    filter 260ms var(--ease),
+    opacity 260ms var(--ease),
+    transform 420ms var(--ease);
+}
+
+.project-card.has-project-image::before {
+  background: linear-gradient(rgba(7, 8, 22, 0.54), rgba(7, 8, 22, 0.68));
+  opacity: 1;
+}
+
+.project-card.has-project-image::after {
+  opacity: 0.74;
+}
+
+.project-card.has-project-image:hover::before,
+.project-card.has-project-image:focus-within::before {
+  opacity: 0.78;
+}
+
+.project-card.has-project-image:hover::after,
+.project-card.has-project-image:focus-within::after {
+  filter: blur(0) saturate(1.08) contrast(1.04);
+  opacity: 0.9;
+  transform: translate(
+      var(--image-shift-x, 0),
+      var(--image-shift-y, 0)
+    )
+    scale(1.04);
 }
 
 .project-card:hover {
-  border-color: rgba(var(--card-rgb), 0.78);
+  border-color: rgba(255, 248, 232, 0.38);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
 }
 
 .project-card a {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   min-height: 320px;
   flex-direction: column;

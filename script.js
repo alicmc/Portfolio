@@ -7,38 +7,28 @@ const projects = [
       "Documentation for an experimental process converting photos of ancient coins into tangible 3D objects.",
     stack: ["Blender", "HTML"],
     url: "https://alicmc.github.io/coins/",
-    githubUrl: "https://github.com/alicmc/coin-modeling",
-    media: createDemoMedia("Coin Modeling"),
+    media: [
+      {
+        type: "image",
+        src: "assets/images/coin.png",
+        alt: "An ancient Roman coin",
+      },
+    ],
   },
   {
-    title: "Smishing Test",
-    tag: "Cybersecurity",
-    description:
-      "A SMShing simulation script designed to carry out internal phishing campaigns.",
-    stack: ["Python", "Web APIs"],
-    url: "#",
-    githubUrl: "https://github.com/alicmc/SmishingTest",
-    media: createDemoMedia("Smishing Test"),
-  },
-  {
-    title: "Virtual Kitchen",
-    tag: "Web Dev",
-    description:
-      "A simple dashboard to track pantry inventory and come up with recipes.",
-    stack: ["HTML", "JavaScript", "CSS"],
-    url: "https://w3stu.cs.jmu.edu/mileacax/cs343/project/",
-    githubUrl: "https://github.com/alicmc/virtual-kitchen",
-    media: createDemoMedia("Virtual Kitchen"),
-  },
-  {
-    title: "AOE Points",
+    title: "AOE Point App",
     tag: "Product",
     description:
       "A React-based Electron App to track members' points and send out automated emails.",
     stack: ["JavaScript", "React", "Electron App"],
     url: "#",
-    githubUrl: "https://github.com/alicmc/aoe-points",
-    media: createDemoMedia("AOE Points"),
+    media: [
+      {
+        type: "image",
+        src: "assets/images/point_app.png",
+        alt: "AOE Point App",
+      },
+    ],
   },
   {
     title: "Animal Classifier",
@@ -63,8 +53,32 @@ const projects = [
       "A web app connecting refugees to service providers around them.",
     stack: ["Flutter", "SQL", "RESTful APIs"],
     url: "#",
-    githubUrl: "https://github.com/alicmc/refugee-services",
     media: createDemoMedia("Refugee Services"),
+  },
+  {
+    title: "Smishing Test",
+    tag: "Cybersecurity",
+    description:
+      "A SMShing simulation script designed to carry out internal phishing campaigns.",
+    stack: ["Python", "Web APIs"],
+    url: "#",
+    githubUrl: "https://github.com/alicmc/SmishingTest",
+    media: createDemoMedia("Smishing Test"),
+  },
+  {
+    title: "Virtual Kitchen",
+    tag: "Web Dev",
+    description:
+      "A dashboard to track budgets and pantry inventory and come up with recipes.",
+    stack: ["HTML", "JavaScript", "CSS"],
+    url: "https://w3stu.cs.jmu.edu/mileacax/cs343/project/",
+    media: [
+      {
+        type: "image",
+        src: "assets/images/virtual_kitchen.png",
+        alt: "Virtual Kitchen",
+      },
+    ],
   },
 ];
 
@@ -106,6 +120,18 @@ function projectHref(project) {
   return `project.html?project=${encodeURIComponent(slugify(project.title))}`;
 }
 
+function normalizeUrl(url) {
+  if (!url) {
+    return "";
+  }
+
+  if (/^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  return `https://${url}`;
+}
+
 function findProjectBySlug(slug) {
   return projects.find((project) => slugify(project.title) === slug);
 }
@@ -118,57 +144,22 @@ const shuffleButton = document.querySelector("#shuffle-projects");
 let currentFilter = "all";
 let activeProjects = [...projects];
 
-function hashString(value) {
-  return [...value].reduce(
-    (hash, char) => Math.imul(31, hash) + char.charCodeAt(0) || 0,
-    0,
+function firstProjectImage(project) {
+  return project.media?.find(
+    (media) => media.type === "image" && media.src && media.src !== "#",
   );
-}
-
-function hslToRgb(hue, saturation, lightness) {
-  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
-  const huePrime = hue / 60;
-  const x = chroma * (1 - Math.abs((huePrime % 2) - 1));
-  const [r1, g1, b1] =
-    huePrime < 1
-      ? [chroma, x, 0]
-      : huePrime < 2
-        ? [x, chroma, 0]
-        : huePrime < 3
-          ? [0, chroma, x]
-          : huePrime < 4
-            ? [0, x, chroma]
-            : huePrime < 5
-              ? [x, 0, chroma]
-              : [chroma, 0, x];
-  const match = lightness - chroma / 2;
-
-  return [r1, g1, b1].map((channel) => Math.round((channel + match) * 255));
-}
-
-function projectAccent(title) {
-  const hash = Math.abs(hashString(title));
-  const palette = [
-    [178, 0.72, 0.58],
-    [214, 0.74, 0.62],
-    [258, 0.68, 0.66],
-    [316, 0.72, 0.64],
-    [22, 0.78, 0.62],
-    [48, 0.82, 0.6],
-    [138, 0.68, 0.58],
-    [332, 0.76, 0.62],
-  ];
-  const [baseHue, saturation, lightness] = palette[hash % palette.length];
-  const hue = baseHue + (((hash >> 8) % 15) - 7);
-
-  return hslToRgb(hue % 360, saturation, lightness).join(", ");
 }
 
 function renderProjects(items) {
   grid.innerHTML = items
-    .map(
-      (project, index) => `
-    <article class="project-card reveal visible" style="--card-rgb: ${projectAccent(project.title)}">
+    .map((project, index) => {
+      const image = firstProjectImage(project);
+      const styleAttr = image
+        ? ` style="--project-image: url('${image.src}')"`
+        : "";
+
+      return `
+    <article class="project-card${image ? " has-project-image" : ""} reveal visible"${styleAttr}>
       <a href="${projectHref(project)}" aria-label="Open ${project.title} project">
         <div class="project-top">
           <span class="project-index">${String(index + 1).padStart(2, "0")}</span>
@@ -183,12 +174,12 @@ function renderProjects(items) {
         </div>
       </a>
     </article>
-  `,
-    )
+  `;
+    })
     .join("");
 
   count.textContent = items.length;
-  bindCardGlow();
+  bindProjectImageShift();
 }
 
 function renderFilters() {
@@ -231,14 +222,24 @@ function applyFilter(filter) {
   });
 }
 
-function bindCardGlow() {
-  document.querySelectorAll(".project-card").forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-      card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+function bindProjectImageShift() {
+  document
+    .querySelectorAll(".project-card.has-project-image")
+    .forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        card.style.setProperty("--image-shift-x", `${x * -18}px`);
+        card.style.setProperty("--image-shift-y", `${y * -14}px`);
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.removeProperty("--image-shift-x");
+        card.style.removeProperty("--image-shift-y");
+      });
     });
-  });
 }
 
 if (shuffleButton) {
@@ -295,7 +296,6 @@ function renderProjectPage() {
   }
 
   document.title = `${project.title} | Alice`;
-  detail.style.setProperty("--card-rgb", projectAccent(project.title));
 
   if (title) {
     title.textContent = project.title;
@@ -319,8 +319,15 @@ function renderProjectPage() {
   }
 
   if (githubLink) {
-    githubLink.href = project.githubUrl;
-    githubLink.hidden = !project.githubUrl;
+    const githubUrl = normalizeUrl(project.githubUrl);
+
+    githubLink.hidden = !githubUrl;
+
+    if (githubUrl) {
+      githubLink.href = githubUrl;
+    } else {
+      githubLink.removeAttribute("href");
+    }
   }
 
   renderProjectMedia(project, mediaGrid);
