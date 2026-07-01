@@ -4,7 +4,7 @@ const projects = [
     title: "Coin Modeling",
     tag: "Creative",
     description:
-      "Documentation for an experimental process converting photos of ancient coins into tangible 3D objects.",
+      "Documentation for an experimental AI-powered process converting photos of ancient coins into tangible 3D objects.",
     stack: ["Blender", "HTML"],
     url: "https://alicmc.github.io/coins/",
     media: [
@@ -12,6 +12,21 @@ const projects = [
         type: "image",
         src: "assets/images/coin.png",
         alt: "An ancient Roman coin",
+      },
+    ],
+  },
+  {
+    title: "Meme Mixer",
+    tag: "Creative",
+    description:
+      "A color mixing game where you try to match the color of the meme.",
+    stack: ["Javascript", "HTML"],
+    url: "https://alicmc.github.io/draw/",
+    media: [
+      {
+        type: "image",
+        src: "assets/images/meme_mixer.png",
+        alt: "Meme Mixer",
       },
     ],
   },
